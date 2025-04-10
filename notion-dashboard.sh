@@ -106,10 +106,11 @@ fi
 
 echo -e "\033[41m\033[97m\033[1m🚨 SPRINT JOBS \033[0m"
 echo -e "${sprint_lines[@]}" | column -t -s $'\t'
-echo -e "${RED}\nThese jobs have been paid in full but Aren't handed off just yet."
+echo -e "${RED}\nThese jobs have been paid in full but haven't been handed off just yet."
 sprint_messages=("This is why he is up so laaaate."
                  "Ben is working through the night on these jobs."
                  "This is why you hear the clack of the keyboard late at night."
+                 "We probs need more coffee and biscuits."
                  "Ben is still at it, finishing up the sprint jobs."
                  "He genuinely wishes he was a better dad."
                  "One day he'll be a way more attentive husband.")
