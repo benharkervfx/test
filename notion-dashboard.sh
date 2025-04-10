@@ -112,7 +112,7 @@ sprint_messages=("This is why he is up so laaaate."
                  "This is why you hear the clack of the keyboard late at night."
                  "We probs need more coffee and biscuits."
                  "Ben is still at it, finishing up the sprint jobs."
-                 "He genuinely wishes he was a better dad."
-                 "One day he'll be a way more attentive husband.")
+                 "Ben wishes he was around a bit more."
+                 "One day Ben will be a way more attentive husband.")
 random_index=$((RANDOM % ${#sprint_messages[@]}))
 echo -e "${RED}${sprint_messages[$random_index]}${RESET}"
