@@ -69,7 +69,7 @@ else
 fi
 
 width=$(($(tput cols) - 1))  # Get terminal width and subtract 1
-echo -e "\033[42m\033[97m\033[1m❓ QUOTED JOBS \033[0m"
+echo -e "\033[42m\033[97m\033[1m❓ QUoooOTED JOBS \033[0m"
 echo -e "${quoted_lines[@]}" | column -t -s $'\t'
 quoted_total=$(for job in "${quoted_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $5} END {print sum}')
 echo -e "\n${GREEN}Estimated Quoted Income: ${RESET} ${WHITE}£${quoted_total}${RESET}"
