@@ -91,7 +91,7 @@ echo -e "${invoiced_lines[@]}" | column -t -s $'\t'
 
 invoiced_total=$(for job in "${invoiced_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $6} END {print sum}')
 echo -e "\n${BLUE}Estimated Invoiced Income:${RESET} ${WHITE}£${invoiced_total}${RESET}"
-echo -e "${BLUE}These are agreed, billable amounts, if they disappear from here then they have been paid.${RESET}\n\n"
+echo -e "${BLUE}These are agreed, billable amounts. \nIf they disappear from here then they have been paid.${RESET}\n\n"
 
 sprint_lines=()
 sprint_content=$( {
@@ -114,4 +114,4 @@ sprint_messages=("This is why he is up so laaaate."
                  "He genuinely wishes he was a better dad."
                  "One day he'll be a way more attentive husband.")
 random_index=$((RANDOM % ${#sprint_messages[@]}))
-echo -e "${RED}\n${sprint_messages[$random_index]}${RESET}"
+echo -e "${RED}${sprint_messages[$random_index]}${RESET}"
