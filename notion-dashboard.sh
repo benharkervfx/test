@@ -117,4 +117,4 @@ sprint_messages=("This is why Ben is up so laaaate."
 random_index=$((RANDOM % ${#sprint_messages[@]}))
 echo -e "${RED}${sprint_messages[$random_index]}${RESET}"
 
-hostname -I
+\n \n \n ${PURPLE} hostname -I
