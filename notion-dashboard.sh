@@ -14,9 +14,9 @@ response=$(curl -s -X POST "https://api.notion.com/v1/databases/$DATABASE_ID/que
   -H "Content-Type: application/json")
 
 clear
-echo -e "\n🧾 VFX Jobs Dashboard - Updated $(date)\n"
+echo -e "\n🧾 VFX Jobs Dashboard - v1.09, Updated $(date)\n"
 
-echo "$response" | jq .
+#echo "$response" | jq .
 
 # Extract plain data
 plain_output=$(echo "$response" | jq -r '
