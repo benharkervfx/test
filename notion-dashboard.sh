@@ -37,12 +37,12 @@ sprint_jobs=()
 while IFS=$'\t' read -r name description gig status payout quoted invoice; do
   if [[ "$status" == "COMPLETE" ]]; then continue; fi
 
-  line="${name}\t${description}\t${gig}\t${status}\t${payout}\t${quoted}\t${invoice}"
+  line="${name}\t${description}\t${gig}\t${status}\t${payout}\t${quoted}"
 
   if [[ "$status" == "SPRINT" ]]; then
     sprint_jobs+=("${line}")
   elif [[ "$invoice" -gt 0 ]]; then
-    invoiced_jobs+=("${line}")
+    invoiced_jobs+=("${name}\t${description}\t${gig}\t${status}\t${payout}\t${invoice}")
   else
     quoted_jobs+=("${line}")
   fi
@@ -59,7 +59,7 @@ print_section() {
 
 quoted_lines=()
 quoted_content=$( {
-  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
+  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)"
   print_section "${quoted_jobs[@]}"
 } | column -t -s $'\t' | awk -v green="$GREEN" -v reset="$RESET" 'NR==1 {print; next} {print green $0 reset}' )
 if [[ -z "$quoted_content" ]]; then
@@ -77,7 +77,7 @@ echo -e "${GREEN}These amounts are being actively discussed with clients and may
 
 invoiced_lines=()
 invoiced_content=$( {
-  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
+  echo -e "Name\tDescription\tGig\tStatus\tPayout\tInvoiced (£)"
   print_section "${invoiced_jobs[@]}"
 } | column -t -s $'\t' | awk -v blue="$BLUE" -v reset="$RESET" 'NR==1 {print; next} {print blue $0 reset}' )
 if [[ -z "$invoiced_content" ]]; then
@@ -89,13 +89,13 @@ fi
 echo -e "\033[44m\033[97m\033[1m📮 INVOICED JOBS \033[0m"
 echo -e "${invoiced_lines[@]}" | column -t -s $'\t'
 
-invoiced_total=$(for job in "${invoiced_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $7} END {print sum}')
+invoiced_total=$(for job in "${invoiced_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $6} END {print sum}')
 echo -e "\n${BLUE}Estimated Invoiced Income:${RESET} ${WHITE}£${invoiced_total}${RESET}"
 echo -e "${BLUE}These are agreed, billable amounts. \nIf they disappear from here then they have been paid.${RESET}\n\n"
 
 sprint_lines=()
 sprint_content=$( {
-  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
+  echo -e "Name\tDescription\tGig\tStatus\tPayout\tInvoiced (£)"
   print_section "${sprint_jobs[@]}"
 } | column -t -s $'\t' | awk -v red="$RED" -v reset="$RESET" 'NR==1 {print; next} {print red $0 reset}' )
 if [[ -z "$sprint_content" ]]; then
