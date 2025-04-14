@@ -74,7 +74,7 @@ fi
 width=$(($(tput cols) - 1))  # Get terminal width and subtract 1
 echo -e "\033[42m\033[97m\033[1m❓ QUOOOOOOTED JOBS \033[0m"
 echo -e "${quoted_lines[@]}" | column -t -s $'\t'
-quoted_total=$(for job in "${quoted_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $5} END {print sum}')
+quoted_total=$(for job in "${quoted_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $6} END {print sum}')
 echo -e "\n${GREEN}Estimated Quoted Income: ${RESET} ${WHITE}£${quoted_total}${RESET}"
 echo -e "${GREEN}These amounts are being actively discussed with clients and may change${RESET}\n\n"
 
@@ -92,7 +92,7 @@ fi
 echo -e "\033[44m\033[97m\033[1m📮 INVOICED JOBS \033[0m"
 echo -e "${invoiced_lines[@]}" | column -t -s $'\t'
 
-invoiced_total=$(for job in "${invoiced_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $6} END {print sum}')
+invoiced_total=$(for job in "${invoiced_jobs[@]}"; do echo -e "$job"; done | awk -F'\t' '{sum += $7} END {print sum}')
 echo -e "\n${BLUE}Estimated Invoiced Income:${RESET} ${WHITE}£${invoiced_total}${RESET}"
 echo -e "${BLUE}These are agreed, billable amounts. \nIf they disappear from here then they have been paid.${RESET}\n\n"
 
