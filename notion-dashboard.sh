@@ -16,21 +16,18 @@ response=$(curl -s -X POST "https://api.notion.com/v1/databases/$DATABASE_ID/que
 clear
 echo -e "\n🧾 VFX Jobs Dashboard - v1.09, Updated $(date)\n"
 
-#echo "$response" | jq .
-
-# Extract plain data
-#plain_output=$(echo "$response" | jq -r '
-#  .results[] |
-#  [
-#    (.properties.Name.title[0].plain_text // "–"),
-#    (.properties.Description.rich_text[0].plain_text // "–"),
-#    (.properties.Gig.select.name // "–"),
-#    (.properties.Select.select.name // "–"),
-#    (.properties.Payout.select.name // "–"),
-#    (.properties["Quoted [unconfirmed]"].number // 0 | tostring),
-#    (.properties["Invoice [comfirmed]"].number // 0 | tostring)
-#  ] |
-#  @tsv')
+plain_output=$(echo "$response" | jq -r '
+  .results[] |
+  [
+    (.properties.Name.title[0].plain_text // "–"),
+    (.properties.Description.rich_text[0].plain_text // "–"),
+    (.properties.Gig.select.name // "–"),
+    (.properties.Select.select.name // "–"),
+    (.properties.Payout.select.name // "–"),
+    (.properties["Quoted [unconfirmed]"].number // 0 | tostring),
+    (.properties["Invoice [comfirmed]"].number // 0 | tostring)
+  ] |
+  @tsv')
 
 # Group jobs into arrays
 quoted_jobs=()
