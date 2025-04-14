@@ -21,6 +21,7 @@ plain_output=$(echo "$response" | jq -r '
   .results[] |
   [
     (.properties.Name.title[0].plain_text // "–"),
+    (.properties.Description.rich_text[0].plain_text // "–"),
     (.properties.Gig.select.name // "–"),
     (.properties.Select.select.name // "–"),
     (.properties.Payout.select.name // "–"),
@@ -34,10 +35,10 @@ quoted_jobs=()
 invoiced_jobs=()
 sprint_jobs=()
 
-while IFS=$'\t' read -r name gig status payout quoted invoice; do
+while IFS=$'\t' read -r name description gig status payout quoted invoice; do
   if [[ "$status" == "COMPLETE" ]]; then continue; fi
 
-  line="${name}\t${gig}\t${status}\t${payout}\t${quoted}\t${invoice}"
+  line="${name}\t${description}\t${gig}\t${status}\t${payout}\t${quoted}\t${invoice}"
 
   if [[ "$status" == "SPRINT" ]]; then
     sprint_jobs+=("${line}")
@@ -59,7 +60,7 @@ print_section() {
 
 quoted_lines=()
 quoted_content=$( {
-  echo -e "Name\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
+  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
   print_section "${quoted_jobs[@]}"
 } | column -t -s $'\t' | awk -v green="$GREEN" -v reset="$RESET" 'NR==1 {print; next} {print green $0 reset}' )
 if [[ -z "$quoted_content" ]]; then
@@ -77,7 +78,7 @@ echo -e "${GREEN}These amounts are being actively discussed with clients and may
 
 invoiced_lines=()
 invoiced_content=$( {
-  echo -e "Name\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
+  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
   print_section "${invoiced_jobs[@]}"
 } | column -t -s $'\t' | awk -v blue="$BLUE" -v reset="$RESET" 'NR==1 {print; next} {print blue $0 reset}' )
 if [[ -z "$invoiced_content" ]]; then
@@ -95,7 +96,7 @@ echo -e "${BLUE}These are agreed, billable amounts. \nIf they disappear from her
 
 sprint_lines=()
 sprint_content=$( {
-  echo -e "Name\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
+  echo -e "Name\tDescription\tGig\tStatus\tPayout\tQuoted (£)\tInvoiced (£)"
   print_section "${sprint_jobs[@]}"
 } | column -t -s $'\t' | awk -v red="$RED" -v reset="$RESET" 'NR==1 {print; next} {print red $0 reset}' )
 if [[ -z "$sprint_content" ]]; then
@@ -112,6 +113,7 @@ sprint_messages=("This is why Ben is up so laaaate."
                  "This is why you hear the clack of the keyboard late at night."
                  "We probs need more coffee and biscuits."
                  "Ben is still at it, finishing up the sprint jobs."
+                 "ERMAGHERD, CHERKERN DERPERS"
                  "Ben wishes he was around a bit more."
                  "One day Ben will be a way more attentive husband.")
 random_index=$((RANDOM % ${#sprint_messages[@]}))
