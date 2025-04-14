@@ -40,7 +40,7 @@ while IFS=$'\t' read -r name description gig status payout quoted invoice; do
   line="${name}\t${description}\t${gig}\t${status}\t${payout}\t${quoted}"
 
   if [[ "$status" == "SPRINT" ]]; then
-    sprint_jobs+=("${line}")
+    sprint_jobs+=("${name}\t${description}\t${gig}\t${status}\t${payout}\t${invoice}")
   elif [[ "$invoice" -gt 0 ]]; then
     invoiced_jobs+=("${name}\t${description}\t${gig}\t${status}\t${payout}\t${invoice}")
   else
